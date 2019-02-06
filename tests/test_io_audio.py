@@ -328,26 +328,6 @@ class TestLoadAudioFileFunction(unittest.TestCase):
 def load_signal(fn, *args, **kwargs):
     return Signal(load_audio_file(fn, *args, **kwargs)[0])
 
-
-class TestDecodeToDisk(unittest.TestCase):
-    def test_write_to_temp(self):
-        outfile = decode_to_disk(stereo_sample_file, tmp_suffix='.raw')
-        self.assertTrue(os.path.exists(outfile))
-        self.assertGreater(os.stat(outfile).st_size, 100 * 1024)
-
-    def test_write_with_replaygain(self):
-        outfile = decode_to_disk(loud_rg_flac_file, tmp_suffix='.raw')
-        outfile_rg = decode_to_disk(loud_rg_flac_file, tmp_suffix='.raw',
-                                    replaygain_mode='track')
-        with open(outfile, 'rb') as f:
-            data = np.frombuffer(f.read(), dtype=np.int16).reshape((-1, 2))
-            orig_spl = Signal(data).spl()
-        with open(outfile_rg, 'rb') as f:
-            data = np.frombuffer(f.read(), dtype=np.int16).reshape((-1, 2))
-            adjusted_spl = Signal(data).spl()
-        self.assertGreater(orig_spl, adjusted_spl)
-
-
 # clean up
 def teardown_module():
     os.unlink(tmp_file)
