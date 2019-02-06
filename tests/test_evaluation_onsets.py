@@ -245,70 +245,27 @@ class TestOnsetSumEvaluationClass(unittest.TestCase):
 
 class TestOnsetMeanEvaluationClass(unittest.TestCase):
 
-    def test_types(self):
-        e = OnsetMeanEvaluation([])
-        self.assertIsInstance(e.num_tp, float)
-        self.assertIsInstance(e.num_fp, float)
-        self.assertIsInstance(e.num_tn, float)
-        self.assertIsInstance(e.num_fn, float)
-        self.assertIsInstance(e.precision, float)
-        self.assertIsInstance(e.recall, float)
-        self.assertIsInstance(e.fmeasure, float)
-        self.assertIsInstance(e.accuracy, float)
-        self.assertIsInstance(e.errors, np.ndarray)
-        self.assertIsInstance(e.mean_error, float)
-        self.assertIsInstance(e.std_error, float)
-
     def test_results(self):
-        # empty mean evaluation
-        e = OnsetMeanEvaluation([])
-        self.assertEqual(e.num_tp, 0)
-        self.assertEqual(e.num_fp, 0)
-        self.assertEqual(e.num_tn, 0)
-        self.assertEqual(e.num_fn, 0)
-        self.assertTrue(math.isnan(e.precision))
-        self.assertTrue(math.isnan(e.recall))
-        self.assertTrue(math.isnan(e.fmeasure))
-        self.assertTrue(math.isnan(e.accuracy))
-        self.assertTrue(np.allclose(e.errors, []))
-        self.assertTrue(math.isnan(e.mean_error))
-        self.assertTrue(math.isnan(e.std_error))
-
-        # mean evaluation of empty onset evaluation
-        e1 = OnsetEvaluation([], [])
-        e = OnsetMeanEvaluation([e1])
-        self.assertEqual(e.num_tp, 0)
-        self.assertEqual(e.num_fp, 0)
-        self.assertEqual(e.num_tn, 0)
-        self.assertEqual(e.num_fn, 0)
-        self.assertEqual(e.precision, 1)
-        self.assertEqual(e.recall, 1)
-        self.assertEqual(e.fmeasure, 1)
-        self.assertEqual(e.accuracy, 1)
-        self.assertTrue(np.allclose(e.errors, []))
-        self.assertTrue(math.isnan(e.mean_error))
-        self.assertTrue(math.isnan(e.std_error))
-
         # mean evaluation of empty and real onset evaluation
         e2 = OnsetEvaluation(DETECTIONS, ANNOTATIONS)
         e3 = OnsetEvaluation(ANNOTATIONS, DETECTIONS)
-        e = OnsetMeanEvaluation([e1, e2, e3])
+        e = OnsetMeanEvaluation([e2, e3])
         self.assertTrue(np.allclose(
-            e.num_tp, np.mean([e_.num_tp for e_ in [e1, e2, e3]])))
+            e.num_tp, np.mean([e_.num_tp for e_ in [e2, e3]])))
         self.assertTrue(np.allclose(
-            e.num_fp, np.mean([e_.num_fp for e_ in [e1, e2, e3]])))
+            e.num_fp, np.mean([e_.num_fp for e_ in [e2, e3]])))
         self.assertTrue(np.allclose(
-            e.num_tn, np.mean([e_.num_tn for e_ in [e1, e2, e3]])))
+            e.num_tn, np.mean([e_.num_tn for e_ in [e2, e3]])))
         self.assertTrue(np.allclose(
-            e.num_fn, np.mean([e_.num_fn for e_ in [e1, e2, e3]])))
+            e.num_fn, np.mean([e_.num_fn for e_ in [e2, e3]])))
         self.assertTrue(np.allclose(
-            e.precision, np.mean([e_.precision for e_ in [e1, e2, e3]])))
+            e.precision, np.mean([e_.precision for e_ in [e2, e3]])))
         self.assertTrue(np.allclose(
-            e.recall, np.mean([e_.recall for e_ in [e1, e2, e3]])))
+            e.recall, np.mean([e_.recall for e_ in [e2, e3]])))
         self.assertTrue(np.allclose(
-            e.fmeasure, np.mean([e_.fmeasure for e_ in [e1, e2, e3]])))
+            e.fmeasure, np.mean([e_.fmeasure for e_ in [e2, e3]])))
         self.assertTrue(np.allclose(
-            e.accuracy, np.mean([e_.accuracy for e_ in [e1, e2, e3]])))
+            e.accuracy, np.mean([e_.accuracy for e_ in [e2, e3]])))
         # errors is just a concatenation of all errors
         # (inherited from SumOnsetEvaluation)
         self.assertTrue(np.allclose(
@@ -318,9 +275,6 @@ class TestOnsetMeanEvaluationClass(unittest.TestCase):
                          np.mean([e_.mean_error for e_ in [e2, e3]]))
         self.assertEqual(e.std_error,
                          np.mean([e_.std_error for e_ in [e2, e3]]))
-
-    def test_tostring(self):
-        print(OnsetMeanEvaluation([]))
 
 
 class TestAddParserFunction(unittest.TestCase):

@@ -246,14 +246,14 @@ class OnsetMeanEvaluation(MeanEvaluation, OnsetSumEvaluation):
     @property
     def mean_error(self):
         """Mean of the errors."""
-        return np.nanmean([e.mean_error for e in self.eval_objects])
+        return np.mean([e.mean_error for e in self.eval_objects])
 
     @property
     def std_error(self):
         """Standard deviation of the errors."""
-        return np.nanmean([e.std_error for e in self.eval_objects])
+        return np.mean([e.std_error for e in self.eval_objects])
 
-    def tostring(self, **kwargs):
+    def tostring(self):
         """
         Format the evaluation metrics as a human readable string.
 

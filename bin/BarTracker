@@ -99,7 +99,7 @@ def main():
     # output processor
     if args.save:
         # save the RNN bar activations to file
-        out_processor = ActivationsProcessor(mode='w', **vars(args))
+        out_processor = ActivationsProcessor(mode = 'w', **vars(args))
     else:
         # track the (down-)beats in the bar activation function and output them
         out_processor = [DBNBarTrackingProcessor(**vars(args))]
