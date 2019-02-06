@@ -546,8 +546,8 @@ def load_audio_file(filename, sample_rate=None, num_channels=None,
 
     Parameters
     ----------
-    filename : str or file handle
-        Name of the file or file handle.
+    filename : str
+        Name of the file
     sample_rate : int, optional
         Desired sample rate of the signal [Hz], or 'None' to return the
         signal in its original rate.
@@ -587,14 +587,6 @@ def load_audio_file(filename, sample_rate=None, num_channels=None,
     For all other audio files, this can not be guaranteed.
 
     """
-    # determine the name of the file if it is a file handle
-    try:
-        # close the file handle if it is open
-        filename.close()
-        # use the file name
-        filename = filename.name
-    except AttributeError:
-        pass
     # try reading as a wave file
     error = "All attempts to load audio file %r failed." % filename
     try:

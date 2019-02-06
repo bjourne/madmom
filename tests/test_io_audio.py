@@ -151,32 +151,6 @@ class TestLoadAudioFileFunction(unittest.TestCase):
             # test unicode string type (Python 2 only)
             signal, sample_rate = load_audio_file(unicode(sample_file))
 
-    def test_file_handle(self):
-        # test wave loader
-        file_handle = open(sample_file)
-        signal, sample_rate = load_audio_file(file_handle)
-        self.assertIsInstance(signal, np.ndarray)
-        self.assertTrue(signal.dtype == np.int16)
-        self.assertTrue(type(sample_rate) == int)
-        file_handle.close()
-        # closed file handle
-        signal, sample_rate = load_audio_file(file_handle)
-        self.assertIsInstance(signal, np.ndarray)
-        self.assertTrue(signal.dtype == np.int16)
-        self.assertTrue(type(sample_rate) == int)
-        # test ffmpeg loader
-        file_handle = open(sample_file)
-        signal, sample_rate = load_audio_file(file_handle)
-        self.assertIsInstance(signal, np.ndarray)
-        self.assertTrue(signal.dtype == np.int16)
-        self.assertTrue(type(sample_rate) == int)
-        file_handle.close()
-        # closed file handle
-        signal, sample_rate = load_audio_file(file_handle)
-        self.assertIsInstance(signal, np.ndarray)
-        self.assertTrue(signal.dtype == np.int16)
-        self.assertTrue(type(sample_rate) == int)
-
     def test_values(self):
         # test wave loader
         signal, sample_rate = load_audio_file(sample_file)
