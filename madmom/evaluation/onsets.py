@@ -24,8 +24,6 @@ from ..utils import combine_events
 
 # default onset evaluation values
 WINDOW = 0.025
-COMBINE = 0.03
-
 
 # onset evaluation function
 def onset_evaluation(detections, annotations, window=WINDOW):
@@ -320,7 +318,7 @@ def add_parser(parser):
                    help='evaluation window (+/- the given size) '
                         '[seconds, default=%(default).3f]')
     g.add_argument('-c', dest='combine', action='store', type=float,
-                   default=COMBINE,
+                   default=0.03,
                    help='combine annotation events within this range '
                         '[seconds, default=%(default).3f]')
     g.add_argument('--delay', action='store', type=float, default=0.,

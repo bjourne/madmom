@@ -1,8 +1,4 @@
 # encoding: utf-8
-# pylint: disable=no-member
-# pylint: disable=invalid-name
-# pylint: disable=too-many-arguments
-# pylint: disable=wrong-import-position
 """
 Evaluation package.
 
@@ -367,7 +363,7 @@ class SimpleEvaluation(EvaluationMixin):
             return 0.
         return numerator / denominator
 
-    def tostring(self, **kwargs):
+    def tostring(self):
         """
         Format the evaluation metrics as a human readable string.
 

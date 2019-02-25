@@ -147,13 +147,12 @@ class NotePeakPickingProcessor(OnsetPeakPickingProcessor):
     POST_AVG = 0.
     PRE_MAX = 0.
     POST_MAX = 0.
-    COMBINE = 0.03
     DELAY = 0.
     ONLINE = False
 
     def __init__(self, threshold=THRESHOLD, smooth=SMOOTH, pre_avg=PRE_AVG,
                  post_avg=POST_AVG, pre_max=PRE_MAX, post_max=POST_MAX,
-                 combine=COMBINE, delay=DELAY, online=ONLINE, fps=FPS,
+                 combine=0.03, delay=DELAY, online=ONLINE, fps=FPS,
                  **kwargs):
         # pylint: disable=unused-argument
         super(NotePeakPickingProcessor, self).__init__(
