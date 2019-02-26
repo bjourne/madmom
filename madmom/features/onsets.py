@@ -837,8 +837,7 @@ class CNNOnsetProcessor(SequentialProcessor):
 
     """
 
-    def __init__(self, **kwargs):
-        # pylint: disable=unused-argument
+    def __init__(self):
         from ..audio.signal import SignalProcessor, FramedSignalProcessor
         from ..audio.stft import ShortTimeFourierTransformProcessor
         from ..audio.filters import MelFilterbank
