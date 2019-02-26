@@ -1083,17 +1083,11 @@ class OnsetPeakPickingProcessor(OnlineProcessor):
     array([0.09, 0.29, 0.45, ..., 2.34, 2.49, 2.67])
 
     """
-    FPS = 100
     THRESHOLD = 0.5  # binary threshold
-    PRE_AVG = 0.
-    POST_AVG = 0.
-    PRE_MAX = 0.
-    POST_MAX = 0.
-    DELAY = 0.
 
-    def __init__(self, threshold=THRESHOLD, smooth=0.0, pre_avg=PRE_AVG,
-                 post_avg=POST_AVG, pre_max=PRE_MAX, post_max=POST_MAX,
-                 combine=0.03, delay=DELAY, online=False, fps=FPS,
+    def __init__(self, threshold=THRESHOLD, smooth=0.0, pre_avg=0.0,
+                 post_avg=0.0, pre_max=0.0, post_max=0.0,
+                 combine=0.03, delay=0.0, online=False, fps = 100,
                  **kwargs):
         # pylint: disable=unused-argument
         # instantiate OnlineProcessor
