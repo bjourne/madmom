@@ -497,7 +497,6 @@ NUM_CHANNELS = None
 CHANNEL = None
 START = None
 STOP = None
-NORM = False
 GAIN = 0.
 DTYPE = None
 
@@ -592,12 +591,12 @@ class Signal(np.ndarray):
 
     def __init__(self, data, sample_rate=SAMPLE_RATE,
                  num_channels=NUM_CHANNELS, channel=CHANNEL, start=START,
-                 stop=STOP, norm=NORM, gain=GAIN, dtype=DTYPE, **kwargs):
+                 stop=STOP, norm=False, gain=GAIN, dtype=DTYPE, **kwargs):
         # this method is for documentation purposes only
         pass
 
     def __new__(cls, data, sample_rate=SAMPLE_RATE, num_channels=NUM_CHANNELS,
-                channel=CHANNEL, start=START, stop=STOP, norm=NORM, gain=GAIN,
+                channel=CHANNEL, start=START, stop=STOP, norm=False, gain=GAIN,
                 dtype=DTYPE, **kwargs):
         from ..io.audio import load_audio_file
         # try to load an audio file if the data is not a numpy array
@@ -740,7 +739,7 @@ class SignalProcessor(Processor):
     """
 
     def __init__(self, sample_rate=SAMPLE_RATE, num_channels=NUM_CHANNELS,
-                 start=START, stop=STOP, norm=NORM, gain=GAIN, dtype=DTYPE,
+                 start=START, stop=STOP, norm=False, gain=GAIN, dtype=DTYPE,
                  **kwargs):
         # pylint: disable=unused-argument
         self.sample_rate = sample_rate
