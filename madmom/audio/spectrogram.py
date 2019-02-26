@@ -824,8 +824,6 @@ class LogarithmicFilteredSpectrogramProcessor(Processor):
 
 
 # spectrogram difference stuff
-DIFF_RATIO = 0.5
-DIFF_FRAMES = None
 DIFF_MAX_BINS = None
 POSITIVE_DIFFS = False
 
@@ -950,14 +948,15 @@ class SpectrogramDifference(Spectrogram):
     # pylint: disable=super-init-not-called
     # pylint: disable=attribute-defined-outside-init
 
-    def __init__(self, spectrogram, diff_ratio=DIFF_RATIO,
-                 diff_frames=DIFF_FRAMES, diff_max_bins=DIFF_MAX_BINS,
+    def __init__(self, spectrogram,
+                 diff_ratio=0.5,
+                 diff_frames = None, diff_max_bins=DIFF_MAX_BINS,
                  positive_diffs=POSITIVE_DIFFS, keep_dims=True, **kwargs):
         # this method is for documentation purposes only
         pass
 
-    def __new__(cls, spectrogram, diff_ratio=DIFF_RATIO,
-                diff_frames=DIFF_FRAMES, diff_max_bins=DIFF_MAX_BINS,
+    def __new__(cls, spectrogram, diff_ratio=0.5,
+                diff_frames = None, diff_max_bins=DIFF_MAX_BINS,
                 positive_diffs=POSITIVE_DIFFS, keep_dims=True, **kwargs):
         # instantiate a Spectrogram if needed
         if not isinstance(spectrogram, Spectrogram):
@@ -1056,7 +1055,9 @@ class SpectrogramDifferenceProcessor(Processor):
 
     """
 
-    def __init__(self, diff_ratio=DIFF_RATIO, diff_frames=DIFF_FRAMES,
+    def __init__(self,
+                 diff_ratio = 0.5,
+                 diff_frames = None,
                  diff_max_bins=DIFF_MAX_BINS, positive_diffs=POSITIVE_DIFFS,
                  stack_diffs=None, **kwargs):
         # pylint: disable=unused-argument
@@ -1106,7 +1107,8 @@ class SpectrogramDifferenceProcessor(Processor):
 
         """
         # update arguments passed to SpectrogramDifference
-        args = dict(diff_ratio=self.diff_ratio, diff_frames=self.diff_frames,
+        args = dict(diff_ratio = self.diff_ratio,
+                    diff_frames = self.diff_frames,
                     diff_max_bins=self.diff_max_bins,
                     positive_diffs=self.positive_diffs)
         args.update(kwargs)

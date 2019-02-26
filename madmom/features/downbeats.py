@@ -812,7 +812,7 @@ class LoadBeatsProcessor(Processor):
         import argparse
         # add beat loading options to the existing parser
         g = parser.add_argument_group('beat loading arguments')
-        g.add_argument('--beats', type=argparse.FileType('rb'), default=beats,
+        g.add_argument('--beats', default=beats,
                        help='where/how to read the beat positions from '
                             '[default: single: STDIN]')
         g.add_argument('--beats_suffix', type=str, default=beats_suffix,

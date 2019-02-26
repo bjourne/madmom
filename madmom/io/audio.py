@@ -587,6 +587,7 @@ def load_audio_file(filename, sample_rate=None, num_channels=None,
     For all other audio files, this can not be guaranteed.
 
     """
+    assert(type(filename) == str)
     # try reading as a wave file
     error = "All attempts to load audio file %r failed." % filename
     try:

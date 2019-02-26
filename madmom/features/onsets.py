@@ -765,7 +765,8 @@ class RNNOnsetProcessor(SequentialProcessor):
         from ..models import ONSETS_RNN, ONSETS_BRNN
         from ..ml.nn import NeuralNetworkEnsemble
 
-        # choose the appropriate models and set frame sizes accordingly
+        # choose the appropriate models and set frame sizes
+        # accordingly
         if kwargs.get('online'):
             nn_files = ONSETS_RNN
             frame_sizes = [512, 1024, 2048]

@@ -957,14 +957,15 @@ def io_arguments(parser, output_suffix='.txt', pickle=True, online=False):
 
     # single file processing options
     sp = sub_parsers.add_parser('single', help='single file processing')
-    sp.set_defaults(func=process_single)
-    sp.add_argument('infile', type=argparse.FileType('rb'),
-                    help='input audio file')
+    sp.set_defaults(func = process_single)
+    sp.add_argument('infile',
+                    help = 'input audio file')
     # Note: requiring '-o' is a simple safety measure to not overwrite existing
     #       audio files after using the processor in 'batch' mode
-    sp.add_argument('-o', dest='outfile', type=argparse.FileType('wb'),
-                    default=output, help='output file [default: STDOUT]')
-    sp.add_argument('-j', dest='num_threads', type=int, default=mp.cpu_count(),
+    sp.add_argument('-o', dest = 'outfile',
+                    type = argparse.FileType('wb'),
+                    default = output, help='output file [default: STDOUT]')
+    sp.add_argument('-j', dest = 'num_threads', type=int, default=mp.cpu_count(),
                     help='number of threads [default=%(default)s]')
     # add arguments needed for loading processors
     if online:
@@ -995,7 +996,7 @@ def io_arguments(parser, output_suffix='.txt', pickle=True, online=False):
     if online:
         sp = sub_parsers.add_parser('online', help='online processing')
         sp.set_defaults(func=process_online)
-        sp.add_argument('infile', nargs='?', type=argparse.FileType('rb'),
+        sp.add_argument('infile', nargs='?',
                         default=None, help='input audio file (if no file is '
                                            'given, a stream operating on the '
                                            'system audio input is used)')
