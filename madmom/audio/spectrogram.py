@@ -262,11 +262,6 @@ class SpectrogramProcessor(Processor):
         """
         return Spectrogram(data, **kwargs)
 
-
-# filtered spectrogram stuff
-FILTERBANK = LogarithmicFilterbank
-
-
 class FilteredSpectrogram(Spectrogram):
     """
     FilteredSpectrogram class.
@@ -353,14 +348,18 @@ class FilteredSpectrogram(Spectrogram):
     # pylint: disable=super-init-not-called
     # pylint: disable=attribute-defined-outside-init
 
-    def __init__(self, spectrogram, filterbank=FILTERBANK, num_bands=NUM_BANDS,
-                 fmin=FMIN, fmax=FMAX, fref=A4, norm_filters=NORM_FILTERS,
+    def __init__(self, spectrogram,
+                 filterbank=LogarithmicFilterbank, num_bands=NUM_BANDS,
+                 fmin=FMIN, fmax=FMAX,
+                 fref=A4, norm_filters=NORM_FILTERS,
                  unique_filters=UNIQUE_FILTERS, **kwargs):
         # this method is for documentation purposes only
         pass
 
-    def __new__(cls, spectrogram, filterbank=FILTERBANK, num_bands=NUM_BANDS,
-                fmin=FMIN, fmax=FMAX, fref=A4, norm_filters=NORM_FILTERS,
+    def __new__(cls, spectrogram,
+                filterbank=LogarithmicFilterBank, num_bands=NUM_BANDS,
+                fmin=FMIN, fmax=FMAX,
+                fref=A4, norm_filters=NORM_FILTERS,
                 unique_filters=UNIQUE_FILTERS, **kwargs):
         # pylint: disable=unused-argument
         # instantiate a Spectrogram if needed
@@ -427,7 +426,8 @@ class FilteredSpectrogramProcessor(Processor):
 
     """
 
-    def __init__(self, filterbank=FILTERBANK, num_bands=NUM_BANDS, fmin=FMIN,
+    def __init__(self, filterbank=LogarithmicFilterbank,
+                 num_bands=NUM_BANDS, fmin=FMIN,
                  fmax=FMAX, fref=A4, norm_filters=NORM_FILTERS,
                  unique_filters=UNIQUE_FILTERS, **kwargs):
         # pylint: disable=unused-argument
@@ -777,7 +777,8 @@ class LogarithmicFilteredSpectrogramProcessor(Processor):
 
     """
 
-    def __init__(self, filterbank=FILTERBANK, num_bands=NUM_BANDS, fmin=FMIN,
+    def __init__(self, filterbank=LogarithmicFilterbank,
+                 num_bands=NUM_BANDS, fmin=FMIN,
                  fmax=FMAX, fref=A4, norm_filters=NORM_FILTERS,
                  unique_filters=UNIQUE_FILTERS, mul=MUL, add=ADD, **kwargs):
         # pylint: disable=unused-argument
@@ -1241,7 +1242,7 @@ class SuperFluxProcessor(SequentialProcessor):
         from .stft import ShortTimeFourierTransformProcessor
         # set the default values (can be overwritten if set)
         # we need an un-normalized LogarithmicFilterbank with 24 bands
-        filterbank = kwargs.pop('filterbank', FILTERBANK)
+        filterbank = kwargs.pop('filterbank', LogarithmicFilterbank)
         num_bands = kwargs.pop('num_bands', 24)
         norm_filters = kwargs.pop('norm_filters', False)
         # we want max filtered diffs
