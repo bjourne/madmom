@@ -939,8 +939,7 @@ NUM_FRAMES = None
 
 # classes for splitting a signal into frames
 class FramedSignal(object):
-    """
-    The :class:`FramedSignal` splits a :class:`Signal` into frames and makes it
+    """The :class:`FramedSignal` splits a :class:`Signal` into frames and makes it
     iterable and indexable.
 
     Parameters
@@ -952,10 +951,11 @@ class FramedSignal(object):
     hop_size : float, optional
         Progress `hop_size` samples between adjacent frames.
     fps : float, optional
-        Use given frames per second; if set, this computes and overwrites the
-        given `hop_size` value.
+        Use given frames per second; if set, this computes and
+        overwrites the given `hop_size` value.
     origin : int, optional
-        Location of the window relative to the reference sample of a frame.
+        Location of the window relative to the reference sample of a
+        frame.
     end : int or str, optional
         End of signal handling (see notes below).
     num_frames : int, optional
@@ -966,15 +966,16 @@ class FramedSignal(object):
 
     Notes
     -----
-    The :class:`FramedSignal` class is implemented as an iterator. It splits
-    the given `signal` automatically into frames of `frame_size` length with
-    `hop_size` samples (can be float, normal rounding applies) between the
-    frames. The reference sample of the first frame refers to the first sample
-    of the `signal`.
+    The :class:`FramedSignal` class is implemented as an iterator. It
+    splits the given `signal` automatically into frames of
+    `frame_size` length with `hop_size` samples (can be float, normal
+    rounding applies) between the frames. The reference sample of the
+    first frame refers to the first sample of the `signal`.
 
-    The location of the window relative to the reference sample of a frame can
-    be set with the `origin` parameter (with the same behaviour as used by
-    ``scipy.ndimage`` filters). Arbitrary integer values can be given:
+    The location of the window relative to the reference sample of a
+    frame can be set with the `origin` parameter (with the same
+    behaviour as used by ``scipy.ndimage`` filters). Arbitrary integer
+    values can be given:
 
     - zero centers the window on its reference sample,
     - negative values shift the window to the right,
@@ -982,30 +983,32 @@ class FramedSignal(object):
 
     Additionally, it can have the following literal values:
 
-    - 'center', 'offline': the window is centered on its reference sample,
-    - 'left', 'past', 'online': the window is located to the left of its
-      reference sample (including the reference sample),
-    - 'right', 'future', 'stream': the window is located to the right of its
-      reference sample.
+    - 'center', 'offline': the window is centered on its reference
+      sample,
+    - 'left', 'past', 'online': the window is located to the left of
+      its reference sample (including the reference sample),
+    - 'right', 'future', 'stream': the window is located to the right
+      of its reference sample.
 
     The `end` parameter is used to handle the end of signal behaviour and
     can have these values:
 
-    - 'normal': stop as soon as the whole signal got covered by at least one
-      frame (i.e. pad maximally one frame),
-    - 'extend': frames are returned as long as part of the frame overlaps
-      with the signal to cover the whole signal.
+    - 'normal': stop as soon as the whole signal got covered by at
+      least one frame (i.e. pad maximally one frame),
+    - 'extend': frames are returned as long as part of the frame
+      overlaps with the signal to cover the whole signal.
 
-    Alternatively, `num_frames` can be used to retrieve a fixed number of
-    frames.
+    Alternatively, `num_frames` can be used to retrieve a fixed number
+    of frames.
 
-    In order to be able to stack multiple frames obtained with different frame
-    sizes, the number of frames to be returned must be independent from the set
-    `frame_size`. It is not guaranteed that every sample of the signal is
-    returned in a frame unless the `origin` is either 'right' or 'future'.
+    In order to be able to stack multiple frames obtained with
+    different frame sizes, the number of frames to be returned must be
+    independent from the set `frame_size`. It is not guaranteed that
+    every sample of the signal is returned in a frame unless the
+    `origin` is either 'right' or 'future'.
 
-    If used in online real-time mode the parameters `origin` and `num_frames`
-    should be set to 'stream' and 1, respectively.
+    If used in online real-time mode the parameters `origin` and
+    `num_frames` should be set to 'stream' and 1, respectively.
 
     Examples
     --------
@@ -1026,10 +1029,11 @@ class FramedSignal(object):
     >>> frames.fps
     100.0
 
-    Instead of passing a :class:`Signal` instance as the first argument,
-    anything a :class:`Signal` can be instantiated from (e.g. a file name) can
-    be used. We can also set the frames per second (`fps`) instead, they get
-    converted to `hop_size` based on the `sample_rate` of the signal:
+    Instead of passing a :class:`Signal` instance as the first
+    argument, anything a :class:`Signal` can be instantiated from
+    (e.g. a file name) can be used. We can also set the frames per
+    second (`fps`) instead, they get converted to `hop_size` based on
+    the `sample_rate` of the signal:
 
     >>> frames = FramedSignal('tests/data/audio/sample.wav', fps=100)
     >>> frames  # doctest: +ELLIPSIS
@@ -1039,9 +1043,9 @@ class FramedSignal(object):
     >>> frames.frame_size, frames.hop_size
     (2048, 441.0)
 
-    When trying to access an out of range frame, an IndexError is raised. Thus
-    the FramedSignal can be used the same way as a numpy array or any other
-    iterable.
+    When trying to access an out of range frame, an IndexError is
+    raised. Thus the FramedSignal can be used the same way as a numpy
+    array or any other iterable.
 
     >>> frames = FramedSignal('tests/data/audio/sample.wav')
     >>> frames.num_frames
@@ -1057,9 +1061,9 @@ class FramedSignal(object):
     >>> frames[:4]  # doctest: +ELLIPSIS
     <madmom.audio.signal.FramedSignal object at 0x...>
 
-    To obtain a numpy array from a FramedSignal, simply use np.array() on the
-    full FramedSignal or a slice of it. Please note, that this requires a full
-    memory copy.
+    To obtain a numpy array from a FramedSignal, simply use np.array()
+    on the full FramedSignal or a slice of it. Please note, that this
+    requires a full memory copy.
 
     >>> np.array(frames[2:4])
     array([[    0,     0, ..., -5316, -5405],

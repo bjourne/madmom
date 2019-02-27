@@ -839,8 +839,7 @@ class BufferProcessor(Processor):
 
 # function to process live input
 def process_online(processor, infile, outfile, **kwargs):
-    """
-    Process a file or audio stream with the given Processor.
+    """Process a file or audio stream with the given Processor.
 
     Parameters
     ----------
@@ -858,10 +857,9 @@ def process_online(processor, infile, outfile, **kwargs):
 
     Notes
     -----
-    Right now there is no way to determine if a processor is online-capable or
-    not. Thus, calling any processor with this function may not produce the
-    results expected.
-
+    Right now there is no way to determine if a processor is
+    online-capable or not. Thus, calling any processor with this
+    function may not produce the results expected.
     """
     from madmom.audio.signal import Stream, FramedSignal
     # set default values
@@ -876,11 +874,10 @@ def process_online(processor, infile, outfile, **kwargs):
     # use the input file
     else:
         # set parameters for opening the file
-        from .audio.signal import FRAME_SIZE, HOP_SIZE, FPS, NUM_CHANNELS
-        frame_size = kwargs.get('frame_size', FRAME_SIZE)
-        hop_size = kwargs.get('hop_size', HOP_SIZE)
-        fps = kwargs.get('fps', FPS)
-        num_channels = kwargs.get('num_channels', NUM_CHANNELS)
+        frame_size = kwargs.get('frame_size', 2048)
+        hop_size = kwargs.get('hop_size', 441)
+        fps = kwargs.get('fps')
+        num_channels = kwargs.get('num_channels')
         # FIXME: overwrite the frame size with the maximum value of all used
         #        processors. This is needed if multiple frame sizes are used
         import warnings
@@ -889,7 +886,8 @@ def process_online(processor, infile, outfile, **kwargs):
                       frame_size)
         # Note: origin must be 'online' and num_frames 'None' to behave exactly
         #       the same as with live input
-        stream = FramedSignal(infile, frame_size=frame_size, hop_size=hop_size,
+        stream = FramedSignal(infile,
+                              frame_size=frame_size, hop_size=hop_size,
                               fps=fps, origin='online', num_frames=None,
                               num_channels=num_channels)
     # set arguments for online processing

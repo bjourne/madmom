@@ -854,9 +854,11 @@ class CNNOnsetProcessor(SequentialProcessor):
             frames = FramedSignalProcessor(frame_size=frame_size, fps=100)
             stft = ShortTimeFourierTransformProcessor()  # caching FFT window
             filt = FilteredSpectrogramProcessor(
-                filterbank=MelFilterbank, num_bands=80, fmin=27.5, fmax=16000,
+                filterbank=MelFilterbank, num_bands=80,
+                fmin=27.5, fmax=16000,
                 norm_filters=True, unique_filters=False)
-            spec = LogarithmicSpectrogramProcessor(log=np.log, add=EPSILON)
+            spec = LogarithmicSpectrogramProcessor(log=np.log,
+                                                   add=EPSILON)
             # process each frame size with spec and diff sequentially
             multi.append(SequentialProcessor((frames, stft, filt, spec)))
         # stack the features (in depth) and pad at beginning and end
