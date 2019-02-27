@@ -1040,14 +1040,12 @@ class TestLogarithmicFilterbankClass(unittest.TestCase):
         # TODO: why can't we test the inherited constants? it does not matter
         # self.assertIsInstance(LogarithmicFilterbank.FMIN, float))
         # self.assertIsInstance(LogarithmicFilterbank.FMAX, float))
-        self.assertIsInstance(LogarithmicFilterbank.NUM_BANDS_PER_OCTAVE, int)
         # self.assertIsInstance(LogarithmicFilterbank.NORM_FILTERS, bool))
         # self.assertIsInstance(LogarithmicFilterbank.UNIQUE_FILTERS, bool))
 
     def test_constant_values(self):
         # self.assertEqual(LogarithmicFilterbank.FMIN, 30.)
         # self.assertEqual(LogarithmicFilterbank.FMAX, 17000.)
-        self.assertEqual(LogarithmicFilterbank.NUM_BANDS_PER_OCTAVE, 12)
         # self.assertEqual(LogarithmicFilterbank.NORM_FILTERS, True)
         # self.assertEqual(LogarithmicFilterbank.UNIQUE_FILTERS, False)
 

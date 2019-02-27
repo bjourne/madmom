@@ -1187,16 +1187,14 @@ class LogarithmicFilterbank(Filterbank):
     # pylint: disable=super-init-not-called
     # pylint: disable=attribute-defined-outside-init
 
-    NUM_BANDS_PER_OCTAVE = 12
-
-    def __init__(self, bin_frequencies, num_bands=NUM_BANDS_PER_OCTAVE,
+    def __init__(self, bin_frequencies, num_bands=12,
                  fmin=FMIN, fmax=FMAX, fref=440.0,
                  norm_filters=NORM_FILTERS,
                  unique_filters=UNIQUE_FILTERS, bands_per_octave=True):
         # this method is for documentation purposes only
         pass
 
-    def __new__(cls, bin_frequencies, num_bands=NUM_BANDS_PER_OCTAVE,
+    def __new__(cls, bin_frequencies, num_bands=12,
                 fmin=FMIN, fmax=FMAX, fref=440.0,
                 norm_filters=NORM_FILTERS,
                 unique_filters=UNIQUE_FILTERS, bands_per_octave=True):
@@ -1230,7 +1228,7 @@ class LogarithmicFilterbank(Filterbank):
             return
         # set default values here
         self.num_bands_per_octave = getattr(obj, 'num_bands_per_octave',
-                                            self.NUM_BANDS_PER_OCTAVE)
+                                            12)
         self.fref = getattr(obj, 'fref', 440.0)
 
 
