@@ -939,8 +939,8 @@ NUM_FRAMES = None
 
 # classes for splitting a signal into frames
 class FramedSignal(object):
-    """The :class:`FramedSignal` splits a :class:`Signal` into frames and makes it
-    iterable and indexable.
+    """The :class:`FramedSignal` splits a :class:`Signal` into frames and
+    makes it iterable and indexable.
 
     Parameters
     ----------
@@ -961,8 +961,8 @@ class FramedSignal(object):
     num_frames : int, optional
         Number of frames to return.
     kwargs : dict, optional
-        If no :class:`Signal` instance was given, one is instantiated with
-        these additional keyword arguments.
+        If no :class:`Signal` instance was given, one is instantiated
+        with these additional keyword arguments.
 
     Notes
     -----
@@ -1071,9 +1071,9 @@ class FramedSignal(object):
 
     """
 
-    def __init__(self, signal, frame_size=FRAME_SIZE, hop_size=HOP_SIZE,
-                 fps=FPS, origin=ORIGIN, end=END_OF_SIGNAL,
-                 num_frames=NUM_FRAMES, **kwargs):
+    def __init__(self, signal, frame_size=2048, hop_size=441,
+                 fps=FPS, origin=0, end='normal',
+                 num_frames=None, **kwargs):
 
         # signal handling
         if not isinstance(signal, Signal):
@@ -1098,17 +1098,21 @@ class FramedSignal(object):
             # window centered around the origin
             origin = 0
         elif origin in ('left', 'past', 'online'):
-            # origin is the right edge of the frame, i.e. window to the left
+            # origin is the right edge of the frame, i.e. window to
+            # the left
             # Note: used when simulating online mode, where only past
             #       information of the audio signal can be used
             origin = (frame_size - 1) / 2
         elif origin in ('right', 'future', 'stream'):
-            # origin is the left edge of the frame, i.e. window to the right
-            # Note: used when operating on live audio streams where we want
-            #       to retrieve a single frame. Instead of using 'online', we
-            #       "fake" the origin in order to retrieve the complete frame
-            #       provided by FramedSignalProcessor. This is a workaround to
-            #       be able to use the same processing chain in different modes
+            # origin is the left edge of the frame, i.e. window to the
+            # right
+            # Note: used when operating on live audio streams where we
+            #       want to retrieve a single frame. Instead of using
+            #       'online', we "fake" the origin in order to
+            #       retrieve the complete frame provided by
+            #       FramedSignalProcessor. This is a workaround to be
+            #       able to use the same processing chain in different
+            #       modes
             origin = -(frame_size / 2)
         self.origin = int(origin)
 
@@ -1119,8 +1123,10 @@ class FramedSignal(object):
                 num_frames = np.floor(len(self.signal) /
                                       float(self.hop_size) + 1)
             elif end == 'normal':
-                # return frames as long as the origin sample covers the signal
-                num_frames = np.ceil(len(self.signal) / float(self.hop_size))
+                # return frames as long as the origin sample covers
+                # the signal
+                num_frames = np.ceil(len(self.signal) /
+                                     float(self.hop_size))
             else:
                 raise ValueError("end of signal handling '%s' unknown" %
                                  end)
@@ -1128,13 +1134,12 @@ class FramedSignal(object):
 
     # make the object indexable / iterable
     def __getitem__(self, index):
-        """
-        This makes the :class:`FramedSignal` class indexable and/or iterable.
+        """This makes the :class:`FramedSignal` class indexable and/or
+        iterable.
 
-        The signal is split into frames (of length `frame_size`) automatically.
-        Two frames are located `hop_size` samples apart. If `hop_size` is a
-        float, normal rounding applies.
-
+        The signal is split into frames (of length `frame_size`)
+        automatically. Two frames are located `hop_size` samples
+        apart. If `hop_size` is a float, normal rounding applies.
         """
         # a single index is given
         if isinstance(index, integer_types):
@@ -1145,21 +1150,25 @@ class FramedSignal(object):
             if index < self.num_frames:
                 return signal_frame(self.signal, index,
                                     frame_size=self.frame_size,
-                                    hop_size=self.hop_size, origin=self.origin)
+                                    hop_size=self.hop_size,
+                                    origin=self.origin)
             # otherwise raise an error to indicate the end of signal
             raise IndexError("end of signal reached")
         # a slice is given
         elif isinstance(index, slice):
-            # determine the frames to return (limited to the number of frames)
+            # determine the frames to return (limited to the number of
+            # frames)
             start, stop, step = index.indices(self.num_frames)
             # allow only normal steps
             if step != 1:
-                raise ValueError('only slices with a step size of 1 supported')
+                raise ValueError(
+                    'only slices with a step size of 1 supported')
             # determine the number of frames
             num_frames = stop - start
             # determine the new origin, i.e. start position
             origin = self.origin - self.hop_size * start
-            # return a new FramedSignal instance covering the requested frames
+            # return a new FramedSignal instance covering the
+            # requested frames
             return FramedSignal(self.signal, frame_size=self.frame_size,
                                 hop_size=self.hop_size, origin=origin,
                                 num_frames=num_frames)
@@ -1167,7 +1176,8 @@ class FramedSignal(object):
         else:
             raise TypeError("frame indices must be slices or integers")
 
-    # len() returns the number of frames, consistent with __getitem__()
+    # len() returns the number of frames, consistent with
+    # __getitem__()
     def __len__(self):
         return self.num_frames
 
@@ -1191,9 +1201,8 @@ class FramedSignal(object):
 
     @property
     def shape(self):
-        """
-        Shape of the FramedSignal (num_frames, frame_size[, num_channels]).
-
+        """Shape of the FramedSignal (num_frames, frame_size[,
+        num_channels]).
         """
         shape = self.num_frames, self.frame_size
         if self.signal.num_channels != 1:

@@ -308,14 +308,22 @@ frame_size=2048, fps=100, sample_rate=22050)
     # pylint: disable=super-init-not-called
     # pylint: disable=attribute-defined-outside-init
 
-    def __init__(self, frames, window=np.hanning, fft_size=None,
-                 circular_shift=False, include_nyquist=False, fft_window=None,
+    def __init__(self, frames,
+                 window=np.hanning,
+                 fft_size=None,
+                 circular_shift=False,
+                 include_nyquist=False,
+                 fft_window = None,
                  fftw=None, **kwargs):
         # this method is for documentation purposes only
         pass
 
-    def __new__(cls, frames, window=np.hanning, fft_size=None,
-                circular_shift=False, include_nyquist=False, fft_window=None,
+    def __new__(cls, frames,
+                window=np.hanning,
+                fft_size=None,
+                circular_shift=False,
+                include_nyquist=False,
+                fft_window = None,
                 fftw=None, **kwargs):
         # pylint: disable=unused-argument
         if isinstance(frames, ShortTimeFourierTransform):
@@ -329,13 +337,17 @@ frame_size=2048, fps=100, sample_rate=22050)
         frame_size = frames.shape[1]
 
         if fft_window is None:
-            # if a callable window function is given, use the frame size to
-            # create a window of this size
+
+            # if a callable window function is given, use the frame
+            # size to create a window of this size
+
             if hasattr(window, '__call__'):
                 window = window(frame_size)
             # window used for FFT
             try:
-                # if the signal is not scaled, scale the window accordingly
+
+                # if the signal is not scaled, scale the window
+                # accordingly
                 max_range = float(np.iinfo(frames.signal.dtype).max)
                 try:
                     # scale the window by the max_range
@@ -345,7 +357,8 @@ frame_size=2048, fps=100, sample_rate=22050)
                     # uniform window and scale it accordingly
                     fft_window = np.ones(frame_size) / max_range
             except ValueError:
-                # no scaling needed, use the window as is (can also be None)
+                # no scaling needed, use the window as is (can also be
+                # None)
                 fft_window = window
 
         # use FFTW to speed up STFT
@@ -356,9 +369,12 @@ frame_size=2048, fps=100, sample_rate=22050)
         except AttributeError:
             pass
         # calculate the STFT
-        data = stft(frames, fft_window, fft_size=fft_size,
+        print('fft_window', fft_window)
+        data = stft(frames, fft_window,
+                    fft_size=fft_size,
                     circular_shift=circular_shift,
-                    include_nyquist=include_nyquist, fftw=fftw)
+                    include_nyquist=include_nyquist,
+                    fftw=fftw)
 
         # cast as ShortTimeFourierTransform
         obj = np.asarray(data).view(cls)
@@ -386,7 +402,8 @@ frame_size=2048, fps=100, sample_rate=22050)
     @property
     def bin_frequencies(self):
         """Bin frequencies."""
-        return fft_frequencies(self.num_bins, self.frames.signal.sample_rate)
+        return fft_frequencies(self.num_bins,
+                               self.frames.signal.sample_rate)
 
     def spec(self, **kwargs):
         """
