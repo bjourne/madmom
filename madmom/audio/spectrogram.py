@@ -35,7 +35,8 @@ def spec(stft):
     return np.abs(stft)
 
 
-def tuning_frequency(spectrogram, bin_frequencies, num_hist_bins=15, fref=A4):
+def tuning_frequency(spectrogram, bin_frequencies,
+                     num_hist_bins=15, fref=440.0):
     """
     Determines the tuning frequency of the audio signal based on the given
     magnitude spectrogram.
@@ -350,15 +351,16 @@ class FilteredSpectrogram(Spectrogram):
     def __init__(self, spectrogram,
                  filterbank=LogarithmicFilterbank, num_bands=12,
                  fmin=30.0, fmax=17000.0,
-                 fref=440, norm_filters=True,
-                 unique_filters=True, **kwargs):
+                 fref=440.0,
+                 norm_filters=True, unique_filters=True,
+                 **kwargs):
         # this method is for documentation purposes only
         pass
 
     def __new__(cls, spectrogram,
-                filterbank=LogarithmicFilterBank, num_bands=12,
+                filterbank=LogarithmicFilterbank, num_bands=12,
                 fmin=30.0, fmax=17000.0,
-                fref=440,
+                fref=440.0,
                 norm_filters=True, unique_filters=True,
                 **kwargs):
         # pylint: disable=unused-argument
@@ -428,7 +430,7 @@ class FilteredSpectrogramProcessor(Processor):
 
     def __init__(self, filterbank=LogarithmicFilterbank,
                  num_bands=12, fmin=30.0,
-                 fmax=17000.0, fref=440,
+                 fmax=17000.0, fref=440.0,
                  norm_filters=True, unique_filters=True,
                  **kwargs):
         # pylint: disable=unused-argument
@@ -780,7 +782,7 @@ class LogarithmicFilteredSpectrogramProcessor(Processor):
 
     def __init__(self, filterbank=LogarithmicFilterbank,
                  num_bands=12, fmin=30.0,
-                 fmax=17000.0, fref=440,
+                 fmax=17000.0, fref=440.0,
                  norm_filters=True, unique_filters=True,
                  mul=MUL, add=ADD, **kwargs):
         # pylint: disable=unused-argument
@@ -813,11 +815,12 @@ class LogarithmicFilteredSpectrogramProcessor(Processor):
 
         """
         # update arguments passed to LogarithmicFilteredSpectrogram
-        args = dict(filterbank=self.filterbank, num_bands=self.num_bands,
-                    fmin=self.fmin, fmax=self.fmax, fref=self.fref,
-                    norm_filters=self.norm_filters,
-                    unique_filters=self.unique_filters, mul=self.mul,
-                    add=self.add)
+        args = dict(filterbank = self.filterbank,
+                    num_bands = self.num_bands,
+                    fmin = self.fmin, fmax = self.fmax, fref = self.fref,
+                    norm_filters = self.norm_filters,
+                    unique_filters = self.unique_filters,
+                    mul = self.mul, add = self.add)
         args.update(kwargs)
         # instantiate a LogarithmicFilteredSpectrogram
         data = LogarithmicFilteredSpectrogram(data, **args)

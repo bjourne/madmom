@@ -182,7 +182,7 @@ def bark_double_frequencies(fmin=20., fmax=15500.):
 
 
 # logarithmic frequency scale
-def log_frequencies(bands_per_octave, fmin, fmax, fref=A4):
+def log_frequencies(bands_per_octave, fmin, fmax, fref=440.0):
     """
     Returns frequencies aligned on a logarithmic frequency scale.
 
@@ -222,7 +222,7 @@ def log_frequencies(bands_per_octave, fmin, fmax, fref=A4):
     return frequencies
 
 
-def semitone_frequencies(fmin, fmax, fref=A4):
+def semitone_frequencies(fmin, fmax, fref=440.0):
     """
     Returns frequencies separated by semitones.
 
@@ -246,7 +246,7 @@ def semitone_frequencies(fmin, fmax, fref=A4):
 
 
 # MIDI
-def hz2midi(f, fref=A4):
+def hz2midi(f, fref=440.0):
     """
     Convert frequencies to the corresponding MIDI notes.
 
@@ -272,7 +272,7 @@ def hz2midi(f, fref=A4):
     return (12. * np.log2(np.asarray(f, dtype=np.float) / fref)) + 69.
 
 
-def midi2hz(m, fref=A4):
+def midi2hz(m, fref=440.0):
     """
     Convert MIDI notes to corresponding frequencies.
 
@@ -555,8 +555,8 @@ class TriangularFilter(Filter):
 
     @classmethod
     def band_bins(cls, bins, overlap=True):
-        """
-        Yields start, center and stop bins for creation of triangular filters.
+        """Yields start, center and stop bins for creation of triangular
+        filters.
 
         Parameters
         ----------
@@ -1190,13 +1190,15 @@ class LogarithmicFilterbank(Filterbank):
     NUM_BANDS_PER_OCTAVE = 12
 
     def __init__(self, bin_frequencies, num_bands=NUM_BANDS_PER_OCTAVE,
-                 fmin=FMIN, fmax=FMAX, fref=A4, norm_filters=NORM_FILTERS,
+                 fmin=FMIN, fmax=FMAX, fref=440.0,
+                 norm_filters=NORM_FILTERS,
                  unique_filters=UNIQUE_FILTERS, bands_per_octave=True):
         # this method is for documentation purposes only
         pass
 
     def __new__(cls, bin_frequencies, num_bands=NUM_BANDS_PER_OCTAVE,
-                fmin=FMIN, fmax=FMAX, fref=A4, norm_filters=NORM_FILTERS,
+                fmin=FMIN, fmax=FMAX, fref=440.0,
+                norm_filters=NORM_FILTERS,
                 unique_filters=UNIQUE_FILTERS, bands_per_octave=True):
         # pylint: disable=arguments-differ
         # decide whether num_bands is bands per octave or total number of bands
@@ -1229,7 +1231,7 @@ class LogarithmicFilterbank(Filterbank):
         # set default values here
         self.num_bands_per_octave = getattr(obj, 'num_bands_per_octave',
                                             self.NUM_BANDS_PER_OCTAVE)
-        self.fref = getattr(obj, 'fref', A4)
+        self.fref = getattr(obj, 'fref', 440.0)
 
 
 # alias
@@ -1327,13 +1329,13 @@ class SimpleChromaFilterbank(Filterbank):
     NUM_BANDS = 12
 
     def __init__(self, bin_frequencies, num_bands=NUM_BANDS, fmin=FMIN,
-                 fmax=FMAX, fref=A4, norm_filters=NORM_FILTERS,
+                 fmax=FMAX, fref=440.0, norm_filters=NORM_FILTERS,
                  unique_filters=UNIQUE_FILTERS):
         # this method is for documentation purposes only
         pass
 
     def __new__(cls, bin_frequencies, num_bands=NUM_BANDS, fmin=FMIN,
-                fmax=FMAX, fref=A4, norm_filters=NORM_FILTERS,
+                fmax=FMAX, fref=440.0, norm_filters=NORM_FILTERS,
                 unique_filters=UNIQUE_FILTERS):
         # pylint: disable=arguments-differ
         raise NotImplementedError("please check if produces correct/expected "
@@ -1362,7 +1364,7 @@ class SimpleChromaFilterbank(Filterbank):
         if obj is None:
             return
         # set default values here
-        self.fref = getattr(obj, 'fref', A4)
+        self.fref = getattr(obj, 'fref', 440.0)
 
 
 class HarmonicFilterbank(Filterbank):
@@ -1413,12 +1415,12 @@ class PitchClassProfileFilterbank(Filterbank):
     FMAX = 5000.
 
     def __init__(self, bin_frequencies, num_classes=CLASSES, fmin=FMIN,
-                 fmax=FMAX, fref=A4):
+                 fmax=FMAX, fref=440.0):
         # this method is for documentation purposes only
         pass
 
     def __new__(cls, bin_frequencies, num_classes=CLASSES, fmin=FMIN,
-                fmax=FMAX, fref=A4):
+                fmax=FMAX, fref=440.0):
         # pylint: disable=arguments-differ
 
         # init a filterbank
@@ -1445,7 +1447,7 @@ class PitchClassProfileFilterbank(Filterbank):
         if obj is None:
             return
         # set default values here
-        self.fref = getattr(obj, 'fref', A4)
+        self.fref = getattr(obj, 'fref', 440.0)
 
     @property
     def corner_frequencies(self):
@@ -1494,12 +1496,12 @@ class HarmonicPitchClassProfileFilterbank(PitchClassProfileFilterbank):
     WINDOW = 4
 
     def __init__(self, bin_frequencies, num_classes=CLASSES, fmin=FMIN,
-                 fmax=FMAX, fref=A4, window=WINDOW):
+                 fmax=FMAX, fref=440.0, window=WINDOW):
         # this method is for documentation purposes only
         pass
 
     def __new__(cls, bin_frequencies, num_classes=CLASSES, fmin=FMIN,
-                fmax=FMAX, fref=A4, window=WINDOW):
+                fmax=FMAX, fref=440.0, window=WINDOW):
         # pylint: disable=arguments-differ
         # init a filterbank
         fb = np.zeros((len(bin_frequencies), num_classes))
@@ -1537,7 +1539,7 @@ class HarmonicPitchClassProfileFilterbank(PitchClassProfileFilterbank):
         if obj is None:
             return
         # set default values here
-        self.fref = getattr(obj, 'fref', A4)
+        self.fref = getattr(obj, 'fref', 440.0)
         self.window = getattr(obj, 'window', self.WINDOW)
 
 
@@ -1576,7 +1578,7 @@ class SemitoneBandpassFilterbank(object):
     """
 
     def __init__(self, order=4, passband_ripple=1, stopband_rejection=50,
-                 q_factor=25, fmin=27.5, fmax=4200., fref=A4):
+                 q_factor=25, fmin=27.5, fmax=4200., fref=440.0):
         from scipy.signal import ellip
         self.order = order
         self.passband_ripple = passband_ripple
