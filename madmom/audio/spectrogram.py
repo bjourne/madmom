@@ -13,8 +13,7 @@ import inspect
 import numpy as np
 
 from ..processors import Processor, SequentialProcessor, BufferProcessor
-from .filters import (Filterbank, LogarithmicFilterbank, NUM_BANDS, FMIN, FMAX,
-                      A4, NORM_FILTERS, UNIQUE_FILTERS)
+from .filters import Filterbank, LogarithmicFilterbank
 
 
 def spec(stft):
@@ -349,18 +348,19 @@ class FilteredSpectrogram(Spectrogram):
     # pylint: disable=attribute-defined-outside-init
 
     def __init__(self, spectrogram,
-                 filterbank=LogarithmicFilterbank, num_bands=NUM_BANDS,
-                 fmin=FMIN, fmax=FMAX,
-                 fref=A4, norm_filters=NORM_FILTERS,
-                 unique_filters=UNIQUE_FILTERS, **kwargs):
+                 filterbank=LogarithmicFilterbank, num_bands=12,
+                 fmin=30.0, fmax=17000.0,
+                 fref=440, norm_filters=True,
+                 unique_filters=True, **kwargs):
         # this method is for documentation purposes only
         pass
 
     def __new__(cls, spectrogram,
-                filterbank=LogarithmicFilterBank, num_bands=NUM_BANDS,
-                fmin=FMIN, fmax=FMAX,
-                fref=A4, norm_filters=NORM_FILTERS,
-                unique_filters=UNIQUE_FILTERS, **kwargs):
+                filterbank=LogarithmicFilterBank, num_bands=12,
+                fmin=30.0, fmax=17000.0,
+                fref=440,
+                norm_filters=True, unique_filters=True,
+                **kwargs):
         # pylint: disable=unused-argument
         # instantiate a Spectrogram if needed
         if not isinstance(spectrogram, Spectrogram):
@@ -427,9 +427,10 @@ class FilteredSpectrogramProcessor(Processor):
     """
 
     def __init__(self, filterbank=LogarithmicFilterbank,
-                 num_bands=NUM_BANDS, fmin=FMIN,
-                 fmax=FMAX, fref=A4, norm_filters=NORM_FILTERS,
-                 unique_filters=UNIQUE_FILTERS, **kwargs):
+                 num_bands=12, fmin=30.0,
+                 fmax=17000.0, fref=440,
+                 norm_filters=True, unique_filters=True,
+                 **kwargs):
         # pylint: disable=unused-argument
         self.filterbank = filterbank
         self.num_bands = num_bands
@@ -778,9 +779,10 @@ class LogarithmicFilteredSpectrogramProcessor(Processor):
     """
 
     def __init__(self, filterbank=LogarithmicFilterbank,
-                 num_bands=NUM_BANDS, fmin=FMIN,
-                 fmax=FMAX, fref=A4, norm_filters=NORM_FILTERS,
-                 unique_filters=UNIQUE_FILTERS, mul=MUL, add=ADD, **kwargs):
+                 num_bands=12, fmin=30.0,
+                 fmax=17000.0, fref=440,
+                 norm_filters=True, unique_filters=True,
+                 mul=MUL, add=ADD, **kwargs):
         # pylint: disable=unused-argument
         self.filterbank = filterbank
         self.num_bands = num_bands
@@ -1301,14 +1303,16 @@ class MultiBandSpectrogram(FilteredSpectrogram):
     # pylint: disable=super-init-not-called
     # pylint: disable=attribute-defined-outside-init
 
-    def __init__(self, spectrogram, crossover_frequencies, fmin=FMIN,
-                 fmax=FMAX, norm_filters=NORM_FILTERS,
-                 unique_filters=UNIQUE_FILTERS, **kwargs):
+    def __init__(self, spectrogram, crossover_frequencies,
+                 fmin=30.0, fmax=17000.0,
+                 norm_filters=True, unique_filters=True,
+                 **kwargs):
         # this method is for documentation purposes only
         pass
 
-    def __new__(cls, spectrogram, crossover_frequencies, fmin=FMIN, fmax=FMAX,
-                norm_filters=NORM_FILTERS, unique_filters=UNIQUE_FILTERS,
+    def __new__(cls, spectrogram, crossover_frequencies,
+                fmin=30.0, fmax=17000.0,
+                norm_filters=True, unique_filters=True,
                 **kwargs):
         from .filters import RectangularFilterbank
         # instantiate a Spectrogram if needed
@@ -1364,8 +1368,9 @@ class MultiBandSpectrogramProcessor(Processor):
 
     """
 
-    def __init__(self, crossover_frequencies, fmin=FMIN, fmax=FMAX,
-                 norm_filters=NORM_FILTERS, unique_filters=UNIQUE_FILTERS,
+    def __init__(self, crossover_frequencies,
+                 fmin=30.0, fmax=17000.0,
+                 norm_filters=True, unique_filters=True,
                  **kwargs):
         # pylint: disable=unused-argument
         self.crossover_frequencies = np.array(crossover_frequencies)
